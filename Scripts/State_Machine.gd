@@ -29,6 +29,10 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.Physics_Update(delta)
+		
+func _input(event: InputEvent) -> void:
+	if current_state:
+		current_state.User_Input(event)
 
 # function for switching between states
 func on_child_transition(state, requested_state_name):

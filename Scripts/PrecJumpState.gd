@@ -1,7 +1,5 @@
-extends Node
-class_name State
-
-signal Transition
+extends State
+class_name PrecJump
 
 func Enter():
 	pass
@@ -13,7 +11,4 @@ func Update(_delta: float):
 	pass
 
 func Physics_Update(_delta: float):
-	pass
-
-func User_Input(event: InputEvent):
 	pass

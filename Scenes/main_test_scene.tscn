@@ -1,12 +1,48 @@
 [gd_scene format=3 uid="uid://qyqwrot70y7r"]
 
+[ext_resource type="Script" uid="uid://cpyynve53dms2" path="res://Scripts/Player.gd" id="1_hfi2a"]
 [ext_resource type="Script" uid="uid://daihx0c2r7mit" path="res://Scripts/State_Machine.gd" id="1_pyuwi"]
-[ext_resource type="Script" uid="uid://3ae6l08saywi" path="res://Scripts/Idle.gd" id="2_ar4ck"]
+[ext_resource type="Script" uid="uid://3ae6l08saywi" path="res://Scripts/PrecMoveState.gd" id="2_ar4ck"]
 
-[node name="Node3D" type="Node3D" unique_id=1637589780]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_45xf7"]
 
-[node name="State Machine" type="Node3D" parent="." unique_id=351282774]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_thky6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y5wa4"]
+size = Vector3(5.475, 1.075, 6.79)
+
+[sub_resource type="BoxMesh" id="BoxMesh_thky6"]
+size = Vector3(5.32, 1, 6.94)
+
+[node name="root" type="Node3D" unique_id=1637589780]
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1869038030]
+script = ExtResource("1_hfi2a")
+
+[node name="Player Collider" type="CollisionShape3D" parent="Player" unique_id=1932986405]
+shape = SubResource("CapsuleShape3D_45xf7")
+
+[node name="Player Hull" type="MeshInstance3D" parent="Player" unique_id=1538436869]
+mesh = SubResource("CapsuleMesh_thky6")
+
+[node name="Player State Machine" type="Node3D" parent="Player" unique_id=351282774 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("1_pyuwi")
+initial_state = NodePath("Precision Move State")
 
-[node name="Idle" type="Node3D" parent="State Machine" unique_id=739163910]
+[node name="Precision Move State" type="Node3D" parent="Player/Player State Machine" unique_id=739163910 node_paths=PackedStringArray("player")]
 script = ExtResource("2_ar4ck")
+player = NodePath("../..")
+
+[node name="HeadPos" type="Node3D" parent="Player" unique_id=176732317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.60107195, -0.5569183)
+
+[node name="Camera3D" type="Camera3D" parent="Player/HeadPos" unique_id=1314687482]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=497421593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5929708, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=824416440]
+shape = SubResource("BoxShape3D_y5wa4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=887867520]
+mesh = SubResource("BoxMesh_thky6")
